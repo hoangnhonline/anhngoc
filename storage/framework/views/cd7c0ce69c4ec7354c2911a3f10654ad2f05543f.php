@@ -60,23 +60,16 @@
                       <?php endforeach; ?>
                     <?php endif; ?>
                   </select>
-                </div>
-                <div class="form-group">
-                  <label for="email">Site nguồn <span class="red-star">*</span></label>
-                  <select class="form-control select2" name="site_id">
-                    <option value="">-- chọn --</option>
-                    <option value="1" <?php echo e(1 == old('site_id') ? "selected" : ""); ?>>-- xvideos.com --</option>
-                    <option value="2" <?php echo e(2 == old('site_id') ? "selected" : ""); ?>>-- youporn.com --</option>
-                    <option value="3" <?php echo e(3 == old('site_id') ? "selected" : ""); ?>>-- redtube.com --</option>
-                    <option value="4" <?php echo e(4 == old('site_id') ? "selected" : ""); ?>>-- tnaflix.com --</option>
-                    <option value="5" <?php echo e(5 == old('site_id') ? "selected" : ""); ?>>-- javhihi.com --</option>
-                    
-                  </select>
-                </div>                 
+                </div>                            
                  <!-- text input -->
                 <div class="form-group">
                   <label>URL phim <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" name="url" id="url" value="<?php echo e(old('url')); ?>">
+                  <div class="input-group">                 
+                    <input type="text" class="form-control" name="url" id="url" value="<?php echo e(old('url')); ?>">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary" type="button" id="btnLoadMovies"><span id="spanLoad" class="glyphicon glyphicon-download-alt"></span></button>
+                    </span>
+                  </div>
                 </div>
                 <div class="form-group loading" style="display:none">
                   <img src="<?php echo e(URL::asset('backend/dist/img/loading.gif')); ?>" alt="loading" title="loading" />
@@ -86,15 +79,24 @@
                   <label>Tiêu đề <span class="red-star">*</span></label>
                   <input type="text" class="form-control" name="title" id="title" value="<?php echo e(old('title')); ?>">
                 </div>
-                <div class="form-group">
-                  
-                  <label>Slug <span class="red-star">*</span></label>
-                  
+                <span class=""></span>
+                <div class="form-group">                  
+                  <label>Slug <span class="red-star">*</span></label>                  
                   <input type="text" class="form-control" name="slug" id="slug" value="<?php echo e(old('slug')); ?>">
+                </div>
+                <div class="form-group" style="margin-top:10px">  
+                  <label class="col-md-3 row">Thumbnail </label>    
+                  <div class="col-md-9">
+                    <img id="thumbnail_image" src="<?php echo e(old('image_url') ? old('image_url') : URL::asset('backend/dist/img/img.png')); ?>" class="img-thumbnail" width="145" height="85">
+                    
+                    <input type="file" id="file-image" style="display:none" />
+                 
+                    <button class="btn btn-default" id="btnUploadImage" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label>Chất lượng</label> 
-                  <label class="radio-inline"><input type="radio" value="1" name="quality" <?php echo e(1 == old('quality') ? "checked" : ""); ?> >HD</label>
+                  <label class="radio-inline"><input type="radio" value="1" name="quality" <?php echo e(1 == old('quality') || !old('quality') ? "checked" : ""); ?> >HD</label>
                   <label class="radio-inline"><input type="radio" value="2" name="quality" <?php echo e(2 == old('quality') ? "checked" : ""); ?>>SD</label>
                   <label class="radio-inline"><input type="radio" value="3" name="quality" <?php echo e(3 == old('quality') ? "checked" : ""); ?>>CAM</label>
                 </div>
@@ -125,7 +127,8 @@
                   </select>
                 </div>                
             </div>          
-        
+            <input type="hidden" name="image_url" id="image_url" value="<?php echo e(old('image_url')); ?>"/>          
+            <input type="hidden" name="image_name" id="image_name" value="<?php echo e(old('image_name')); ?>"/>
             <div class="box-footer">
               <button type="submit" class="btn btn-primary">Lưu</button>
               <a class="btn btn-default" class="btn btn-primary" href="<?php echo e(route('movies.index')); ?>">Hủy</a>
@@ -226,46 +229,7 @@
           });
         }
       });
-      var filesIcon = '';
-      $('#file-icon').change(function(e){
-         filesIcon = e.target.files;
-         
-         if(filesIcon != ''){
-           var dataForm = new FormData();        
-          $.each(filesIcon, function(key, value) {
-             dataForm.append('file', value);
-          });
-          
-          dataForm.append('date_dir', 0);
-          dataForm.append('folder', 'tmp');
-
-          $.ajax({
-            url: $('#route_upload_tmp_image').val(),
-            type: "POST",
-            async: false,      
-            data: dataForm,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-              if(response.image_path){
-                $('#thumbnail_icon').attr('src',$('#upload_url').val() + response.image_path);
-                $('#icon_url').val( response.image_path );
-                $( '#icon_name' ).val( response.image_name );
-              }
-              console.log(response.image_path);
-                //window.location.reload();
-            },
-            error: function(response){                             
-                var errors = response.responseJSON;
-                for (var key in errors) {
-                  
-                }
-                //$('#btnLoading').hide();
-                //$('#btnSave').show();
-            }
-          });
-        }
-      });
+      
       
       $('#title').change(function(){
          var name = $.trim( $(this).val() );
@@ -307,21 +271,23 @@
             }
         });
       });
-      $('#url').blur(function(){
-        if( $(this).val() != '' ){
-          $('.loading').show();
+      $('#btnLoadMovies').click(function(){
+        if( $('#url').val() != '' ){
+          $('#spanLoad').removeClass('glyphicon glyphicon-download-alt').addClass('fa fa-spin fa-spinner');
           $.ajax({
               url: $('#route_get_movies_external').val(),
               type: "POST",
-              async: false,
+              async: true,
               data: {          
-                  url : $(this).val()                
+                  url : $('#url').val()                
               },              
               success: function(response){      
                   $('#title').val(response.title);
                   $('#slug').val(response.slug);
-                  $('.loading').hide();                 
-                                     
+                  $('#thumbnail_image').attr('src', response.image_url);
+                  $('#image_url').val(response.image_url);                
+                  $('#spanLoad').removeClass('fa fa-spinner fa-spin').addClass('glyphicon glyphicon-download-alt');              
+                                      
               }
           });
         }

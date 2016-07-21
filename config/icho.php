@@ -1,5 +1,5 @@
 <?php 
-$url = 'http://icho.dev';
+$url = 'http://anhngoc.dev';
 return [    
     'paging' => 100, // number rows for paging
     'uploads' => [

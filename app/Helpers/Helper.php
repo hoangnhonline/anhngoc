@@ -110,64 +110,71 @@ class Helper
         //$url = 'http://www.redtube.com/1569950';
         //$url = 'http://www.youporn.com/watch/12902219/exibitionist-dude-pinoy-astig/';
         //$url = 'http://www.xvideos.com/video20196023/posh_british_webcam_chick_more_on_youcamgirl.net_webcamgirls_';
-        $isXvideo = ( strpos($url, 'xvideos') > 0 || strpos($url, 'hihi.com') > 0 || strpos($url, 'redtube.com') > 0 || strpos($url, 'youporn.com') > 0 || strpos($url, 'tnaflix.com') > 0 ) ? 1 : 0;
         
-        if($isXvideo == 1){
             
-            $ch = curl_init($url);    
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-            if(strpos($url, 'xvideos') > 0){
-                curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420.1 (KHTML, like Gecko) Version/3.0 Mobile/3B48b Safari/419.3');    
-            }
-            curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-            $result = curl_exec($ch);    
+        $ch = curl_init($url);    
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+        if(strpos($url, 'xvideos') > 0){
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420.1 (KHTML, like Gecko) Version/3.0 Mobile/3B48b Safari/419.3');    
+        }
+        curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+        $result = curl_exec($ch);    
 
-            curl_close($ch);    
+        curl_close($ch);    
 
-             // Create a DOM object
-            $html = new simple_html_dom();
-            // Load HTML from a string
-            $html->load($result);
+         // Create a DOM object
+        $html = new simple_html_dom();
+        // Load HTML from a string
+        $html->load($result);
+
+        if(strpos($url, 'xvideos') > 0){
+            $tmpArr = explode("html5player.setVideoUrlHigh('", $result);
             
-            if(strpos($url, 'xvideos') > 0){
-                $tmpArr = explode("html5player.setVideoUrlHigh('", $result);
-                
-                $tmpArr = explode("');", $tmpArr[1]);
-                
-                $arrReturn['video_url'] = $tmpArr[0];
+            $tmpArr = explode("');", $tmpArr[1]);
+            
+            $arrReturn['video_url'] = $tmpArr[0];
 
-                $arrReturn['image_url'] = $html->find('meta[property="og:image"]', 0)->content;
+            $arrReturn['image_url'] = $html->find('meta[property="og:image"]', 0)->content;
+            $title = $html->find('title', 0)->innerText();
+            $title = str_replace(" - XVIDEOS.COM", "", $title);
 
-            }elseif(strpos($url, 'hihi.com') > 0 ){
+        }elseif(strpos($url, 'hihi.com') > 0 ){
+            $title = $html->find('title', 0)->innerText();
+            $arrReturn['video_url'] = $html->find('source[data-res]', 0)->src;
 
-                $arrReturn['video_url'] = $html->find('source[data-res]', 0)->src;
+            $arrReturn['image_url'] = $html->find('meta[property="og:image"]', 0)->content; 
 
-                $arrReturn['image_url'] = $html->find('meta[property="og:image"]', 0)->content; 
+            $title = str_replace(" - Free JAV HD", "", $title);
 
-            }elseif(strpos($url, 'redtube.com') > 0){
+        }elseif(strpos($url, 'redtube.com') > 0){
+            $title = $html->find('title', 0)->innerText();
+            $arrReturn['video_url'] = $html->find('source', 0)->src;
 
-                $arrReturn['video_url'] = $html->find('source', 0)->src;
+            $arrReturn['image_url'] = $html->find('video', 0)->poster; 
 
-                $arrReturn['image_url'] = $html->find('video', 0)->poster; 
+        }elseif(strpos($url, 'youporn.com') > 0){
+            $title = $html->find('title', 0)->innerText();
+            $arrReturn['video_url'] = $html->find('.downloadOption', 0)->find('a', 0)->href;
 
-            }elseif(strpos($url, 'youporn.com') > 0){
+            $arrReturn['image_url'] = $html->find('meta[property="og:image"]', 0)->content;
 
-                $arrReturn['video_url'] = $html->find('.downloadOption', 0)->find('a', 0)->href;
+            $title = str_replace(" - YouPorn", "", $title);
 
-                $arrReturn['image_url'] = $html->find('meta[property="og:image"]', 0)->content;
+        }else{
+            
+            $html = file_get_html($url);
 
-            }else{
-                
-                $html = file_get_html($url);
+            $title = $html->find('title', 0)->innerText();
 
-                $arrReturn['video_url'] = $html->find('meta[itemprop="contentUrl"]', 0)->content;
+            $arrReturn['video_url'] = $html->find('meta[itemprop="contentUrl"]', 0)->content;
 
-                $arrReturn['image_url'] = $html->find('meta[itemprop="thumbnailUrl"]', 0)->content;                
+            $arrReturn['image_url'] = $html->find('meta[itemprop="thumbnailUrl"]', 0)->content;                
 
-            }       
-            $arrReturn['title'] = $html->find('title', 0)->innerText();
-        } 
+            $title = str_replace(" - TNAFlix Porn Videos", "", $title);
+        }    
+        
+        $arrReturn['title'] = $title;
         return $arrReturn;    
     }
 }

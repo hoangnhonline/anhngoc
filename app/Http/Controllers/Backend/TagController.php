@@ -19,7 +19,7 @@ class TagController extends Controller
     public function index(Request $request)
     {
         //Helper::getDetailVideoFromExternalSite('');
-        //die('123');
+        
         $type = isset($request->type) ? $request->type : 1;
 
         $tag = isset($request->tag) && $request->tag != '' ? $request->tag : '';
