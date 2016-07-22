@@ -28,16 +28,26 @@ class MoviesController extends Controller
         $parent_id = isset($request->parent_id) ? $request->parent_id : $parentCate->id;
 
         $cate_id = isset($request->cate_id) ? $request->cate_id : 0;
+
+        $site_id = isset($request->site_id) ? $request->site_id : 0;
         
         $cateArr = Cate::where('parent_id', $parent_id)->get();
 
         $title = isset($request->title) && $request->title != '' ? $request->title : '';
         
-        $items = Movies::where('parent_id', $parent_id)->orderBy('display_order')->get();
+        $query = Movies::where('parent_id', $parent_id);
+
+        if( $cate_id > 0){
+            $query->where('cate_id', $cate_id);
+        }
+        if( $title != ''){
+            $query->where('alias', 'LIKE', '%'.$title.'%');
+        }
+        $items = $query->orderBy('id', 'desc')->paginate(20);
         
         $parentCateArr = ParentCate::all();
         
-        return view('backend.movies.index', compact( 'items', 'parentCate' , 'parent_id', 'parentCateArr', 'title', 'cateArr', 'cate_id'));
+        return view('backend.movies.index', compact( 'items', 'parentCate' , 'parent_id', 'parentCateArr', 'title', 'cateArr', 'cate_id', 'site_id'));
     }
 
     /**
@@ -73,26 +83,41 @@ class MoviesController extends Controller
             'parent_id' => 'required',
             'cate_id' => 'required',
             'url' => 'required',
-            'title' => 'required',
-            'site_id' => 'required',
+            'title' => 'required',            
             'slug' => 'required|unique:movies,slug',
         ],
         [
             'url.required' => 'Bạn chưa nhập URL phim',
-            'cate_id.required' => 'Bạn chưa chọn danh mục con.',
-            'site_id.required' => 'Bạn chưa chọn site nguồn.',
+            'cate_id.required' => 'Bạn chưa chọn danh mục con.',            
             'title.required' => 'Bạn chưa nhập tiêu đề',
             'slug.required' => 'Bạn chưa nhập slug',
             'slug.unique' => 'Slug đã được sử dụng.'
         ]);       
         
         $dataArr['alias'] = Helper::stripUnicode($dataArr['title']);
+        
+        if($dataArr['image_url'] && $dataArr['image_name']){
+            
+            $tmp = explode('/', $dataArr['image_url']);
+
+            if(!is_dir('uploads/'.date('Y/m/d'))){
+                mkdir('uploads/'.date('Y/m/d'), 0777, true);
+            }
+
+            $destionation = date('Y/m/d'). '/'. end($tmp);
+            
+            File::move(config('icho.upload_path').$dataArr['image_url'], config('icho.upload_path').$destionation);
+            
+            $dataArr['image_url'] = $destionation;
+        }
+
+        $dataArr['site_id'] = Helper::getSiteOriginal($dataArr['url']);
 
         Movies::create($dataArr);
 
         Session::flash('message', 'Tạo mới phim thành công');
 
-        return redirect()->route('movies.index',[$dataArr['parent_id']]);
+        return redirect()->route('movies.index',['parent_id' => $dataArr['parent_id'], 'cate_id' => $dataArr['cate_id']]);
     }
 
     /**
@@ -114,9 +139,15 @@ class MoviesController extends Controller
     */
     public function edit($id)
     {
-        $detail = Cate::find($id);
+        $detail = Movies::find($id);
+        
+        $parentCate = ParentCate::find( $detail->parent_id );
+        
+        $cateArr = Cate::where('parent_id', $detail->parent_id)->get();
+
         $parentCateArr = ParentCate::all();
-        return view('backend.movies.edit', compact( 'detail', 'parentCateArr' ));
+        
+        return view('backend.movies.edit', compact( 'detail', 'parentCateArr', 'parentCate', 'cateArr' ));
     }
 
     /**
@@ -131,24 +162,46 @@ class MoviesController extends Controller
         $dataArr = $request->all();
         
         $this->validate($request,[
-            'name' => 'required',
-            'slug' => 'required|unique:parent_cate,slug|unique:cate,slug,'.$dataArr['id'],
+            'parent_id' => 'required',
+            'cate_id' => 'required',
+            'url' => 'required',
+            'title' => 'required',            
+            'slug' => 'required|unique:movies,slug,'.$dataArr['id'],
         ],
         [
-            'name.required' => 'Bạn chưa nhập tên danh mục',
+            'url.required' => 'Bạn chưa nhập URL phim',
+            'cate_id.required' => 'Bạn chưa chọn danh mục con.',            
+            'title.required' => 'Bạn chưa nhập tiêu đề',
             'slug.required' => 'Bạn chưa nhập slug',
             'slug.unique' => 'Slug đã được sử dụng.'
         ]);       
+        
+        $dataArr['alias'] = Helper::stripUnicode($dataArr['title']);
+        
+        if($dataArr['image_url'] && $dataArr['image_name']){
+            
+            $tmp = explode('/', $dataArr['image_url']);
 
-        $dataArr['alias'] = Helper::stripUnicode($dataArr['name']);
+            if(!is_dir('uploads/'.date('Y/m/d'))){
+                mkdir('uploads/'.date('Y/m/d'), 0777, true);
+            }
 
-        $model = Cate::find($dataArr['id']);
+            $destionation = date('Y/m/d'). '/'. end($tmp);
+            
+            File::move(config('icho.upload_path').$dataArr['image_url'], config('icho.upload_path').$destionation);
+            
+            $dataArr['image_url'] = $destionation;
+        }
+
+        $dataArr['site_id'] = Helper::getSiteOriginal($dataArr['url']);
+
+        $model = Movies::find($dataArr['id']);
 
         $model->update($dataArr);
 
-        Session::flash('message', 'Cập nhật danh mục thành công');
+        Session::flash('message', 'Cập nhật phim thành công');        
 
-        return redirect()->route('movies.index', [$dataArr['parent_id']]);
+        return redirect()->route('movies.index', ['parent_id' => $dataArr['parent_id'], 'cate_id' => $dataArr['cate_id']]);
     }
 
     /**

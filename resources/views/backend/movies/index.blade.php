@@ -76,11 +76,13 @@
         
         <!-- /.box-header -->
         <div class="box-body">
+          <div style="text-align:center">
+            {{ $items->appends( ['parent_id' => $parent_id, 'cate_id' => $cate_id, 'title' => $title, 'site_id' => $site_id] )->links() }}
+          </div>  
           <table class="table table-bordered" id="table-list-data">
             <tr>
-              <th style="width: 1%">#</th>
-              <th style="width: 1%;white-space:nowrap">Thứ tự</th>
-              <th>Tên</th>          
+              <th style="width: 1%">#</th>              
+              <th>Tiêu đề</th>          
               <th width="1%;white-space:nowrap">Thao tác</th>
             </tr>
             <tbody>
@@ -89,12 +91,9 @@
               @foreach( $items as $item )
                 <?php $i ++; ?>
               <tr id="row-{{ $item->id }}">
-                <td><span class="order">{{ $i }}</span></td>
-                <td style="vertical-align:middle;text-align:center">
-                  <img src="{{ URL::asset('backend/dist/img/move.png')}}" class="move img-thumbnail" alt="Cập nhật thứ tự"/>
-                </td>
+                <td><span class="order">{{ $i }}</span></td>               
                 <td>                  
-                  <a href="{{ route( 'movies.edit', [ 'id' => $item->id ]) }}">{{ $item->name }}</a>
+                  <a href="{{ route( 'movies.edit', [ 'id' => $item->id ]) }}">{{ $item->title }}</a>
                   
                   @if( $item->is_hot == 1 )
                   <img class="img-thumbnail" src="{{ URL::asset('backend/dist/img/star.png')}}" alt="Nổi bật" title="Nổi bật" />
@@ -105,7 +104,7 @@
                 <td style="white-space:nowrap">                  
                   <a href="{{ route( 'movies.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning">Chỉnh sửa</a>                 
                   
-                  <a onclick="return callDelete('{{ $item->name }}','{{ route( 'movies.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger">Xóa</a>
+                  <a onclick="return callDelete('{{ $item->title }}','{{ route( 'movies.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger">Xóa</a>
                   
                 </td>
               </tr> 
@@ -118,6 +117,9 @@
 
           </tbody>
           </table>
+          <div style="text-align:center">
+            {{ $items->appends( ['parent_id' => $parent_id, 'cate_id' => $cate_id, 'title' => $title, 'site_id' => $site_id] )->links() }}
+          </div>  
         </div>        
       </div>
       <!-- /.box -->     
