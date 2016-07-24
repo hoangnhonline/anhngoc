@@ -1464,14 +1464,10 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
      * @return bool
      */
     public function save(array $options = [])
-    {
-        if( ! $this->created_user)
-        {
-            $this->created_user = 1;
-        }
+    {      
 
         $query = $this->newQueryWithoutScopes();
-
+       
         // If the "saving" event returns false we'll bail out of the save and return
         // false, indicating that the save failed. This provides a chance for any
         // listeners to cancel save operations if validations fail or whatever.
@@ -1490,6 +1486,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // ID attribute on the model to the value of the newly inserted row's ID
         // which is typically an auto-increment value managed by the database.
         else {
+            
             $saved = $this->performInsert($query, $options);
         }
 
