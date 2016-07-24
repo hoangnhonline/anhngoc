@@ -28,7 +28,7 @@ class TagController extends Controller
         if( $tag !='' ){
             $query->where('tag', 'LIKE', '%'.$tag.'%');
         }
-        $items = $query->orderBy('id', 'desc')->paginate(1);
+        $items = $query->orderBy('id', 'desc')->paginate(50);
 
         return view('backend.tag.index', compact( 'items', 'type', 'tag'));
     }

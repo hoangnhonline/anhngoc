@@ -40,6 +40,9 @@ class MoviesController extends Controller
         if( $cate_id > 0){
             $query->where('cate_id', $cate_id);
         }
+        if( $site_id > 0){
+            $query->where('site_id', $site_id);
+        }
         if( $title != ''){
             $query->where('alias', 'LIKE', '%'.$title.'%');
         }
@@ -66,7 +69,9 @@ class MoviesController extends Controller
         
         $parentCateArr = ParentCate::all()->sortBy('display_order');
 
-        return view('backend.movies.create', compact( 'parent_id', 'parentCateArr', 'parentCate', 'parent_id', 'cateArr'));
+        $tagArr = Tag::where('type', 1)->orderBy('id', 'desc')->get();
+
+        return view('backend.movies.create', compact( 'tagArr', 'parent_id', 'parentCateArr', 'parentCate', 'parent_id', 'cateArr'));
     }
 
     /**
@@ -113,7 +118,16 @@ class MoviesController extends Controller
 
         $dataArr['site_id'] = Helper::getSiteOriginal($dataArr['url']);
 
-        Movies::create($dataArr);
+        $rs = Movies::create($dataArr);
+
+        $object_id = $rs->id;
+
+        // xu ly tags
+        if( !empty( $dataArr['tags'] ) && $object_id ){
+            foreach ($dataArr['tags'] as $tag_id) {
+                TagObjects::create(['object_id' => $object_id, 'tag_id' => $tag_id, 'object_type' => 1]);
+            }
+        }
 
         Session::flash('message', 'Tạo mới phim thành công');
 
@@ -139,6 +153,7 @@ class MoviesController extends Controller
     */
     public function edit($id)
     {
+        $tagSelected = [];
         $detail = Movies::find($id);
         
         $parentCate = ParentCate::find( $detail->parent_id );
@@ -146,8 +161,18 @@ class MoviesController extends Controller
         $cateArr = Cate::where('parent_id', $detail->parent_id)->get();
 
         $parentCateArr = ParentCate::all();
+
+        $tmpArr = TagObjects::where(['object_type' => 1, 'object_id' => $id])->get();
         
-        return view('backend.movies.edit', compact( 'detail', 'parentCateArr', 'parentCate', 'cateArr' ));
+        if( $tmpArr->count() > 0 ){
+            foreach ($tmpArr as $value) {
+                $tagSelected[] = $value->tag_id;
+            }
+        }
+        
+        $tagArr = Tag::where('type', 1)->get();
+
+        return view('backend.movies.edit', compact('tagArr', 'tagSelected', 'detail', 'parentCateArr', 'parentCate', 'cateArr' ));
     }
 
     /**
@@ -199,6 +224,13 @@ class MoviesController extends Controller
 
         $model->update($dataArr);
 
+        TagObjects::where(['object_id' => $dataArr['id'], 'object_type' => 1])->delete();
+        // xu ly tags
+        if( !empty( $dataArr['tags'] ) ){
+            foreach ($dataArr['tags'] as $tag_id) {
+                TagObjects::create(['object_id' => $dataArr['id'], 'tag_id' => $tag_id, 'object_type' => 1]);
+            }
+        }
         Session::flash('message', 'Cập nhật phim thành công');        
 
         return redirect()->route('movies.index', ['parent_id' => $dataArr['parent_id'], 'cate_id' => $dataArr['cate_id']]);
@@ -213,11 +245,14 @@ class MoviesController extends Controller
     public function destroy($id)
     {
         // delete
-        $model = Cate::find($id);
+        TagObjects::where(['object_id' => $dataArr['id'], 'object_type' => 1])->delete();
+
+        $model = Movies::find($id);
         $model->delete();
 
+
         // redirect
-        Session::flash('message', 'Xóa danh mục thành công');
+        Session::flash('message', 'Xóa phim thành công');
         return redirect()->route('movies.index');
     }
 }

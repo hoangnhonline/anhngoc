@@ -84,16 +84,19 @@
                   <label>Slug <span class="red-star">*</span></label>                  
                   <input type="text" class="form-control" name="slug" id="slug" value="<?php echo e(old('slug')); ?>">
                 </div>
-                <div class="form-group" style="margin-top:10px">  
+                
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
                   <label class="col-md-3 row">Thumbnail </label>    
                   <div class="col-md-9">
-                    <img id="thumbnail_image" src="<?php echo e(old('image_url') ? old('image_url') : URL::asset('backend/dist/img/img.png')); ?>" class="img-thumbnail" width="145" height="85">
+                    <img id="thumbnail_image" src="<?php echo e(old('image_url') ? Helper::showImage(old('image_url')) : URL::asset('backend/dist/img/img.png')); ?>" class="img-thumbnail" width="145" height="85">
                     
                     <input type="file" id="file-image" style="display:none" />
                  
                     <button class="btn btn-default" id="btnUploadImage" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
                   </div>
+                  <div style="clear:both"></div>
                 </div>
+                <div style="clear:both"></div>
                 <div class="form-group">
                   <label>Chất lượng</label> 
                   <label class="radio-inline"><input type="radio" value="1" name="quality" <?php echo e(1 == old('quality') || !old('quality') ? "checked" : ""); ?> >HD</label>
@@ -108,9 +111,7 @@
                 <div class="form-group">
                   <label>Mô tả</label>
                   <textarea class="form-control" rows="4" name="description" id="description"><?php echo e(old('description')); ?></textarea>
-                </div>            
-
-                
+                </div> 
                 <div class="form-group">
                   <div class="checkbox">
                     <label>
@@ -125,7 +126,22 @@
                     <option value="0" <?php echo e(old('status') == 0 ? "selected" : ""); ?>>Ẩn</option>
                     <option value="1" <?php echo e(old('status') == 1 || old('status') == NULL ? "selected" : ""); ?>>Hiện</option>                  
                   </select>
-                </div>                
+                </div>
+                <div class="form-group">
+                  <label>Tags</label>
+                  <select class="form-control select2" name="tags[]" id="tags" multiple="multiple">                  
+                    <?php if( $tagArr->count() > 0): ?>
+                      <?php foreach( $tagArr as $value ): ?>
+                      <option value="<?php echo e($value->id); ?>" <?php echo e(old('tags') && in_array($value->id, old('tags') ) ? "selected" : ""); ?>><?php echo e($value->tag); ?></option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Chi tiết</label>
+                  <textarea class="form-control" rows="4" name="content" id="content"><?php echo e(old('content')); ?></textarea>
+                </div>
+                  
             </div>          
             <input type="hidden" name="image_url" id="image_url" value="<?php echo e(old('image_url')); ?>"/>          
             <input type="hidden" name="image_name" id="image_name" value="<?php echo e(old('image_name')); ?>"/>
@@ -181,14 +197,22 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('javascript_page'); ?>
+<script src="<?php echo e(URL::asset('backend/dist/js/ckeditor/ckeditor.js')); ?>"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+      $(".select2").select2();
+      var editor = CKEDITOR.replace( 'content',{
+          language : 'vi',
+          filebrowserBrowseUrl: '../dist/js/kcfinder/browse.php?type=files',
+          filebrowserImageBrowseUrl: '../dist/js/kcfinder/browse.php?type=images',
+          filebrowserFlashBrowseUrl: '../dist/js/kcfinder/browse.php?type=flash',
+          filebrowserUploadUrl: '../dist/js/kcfinder/upload.php?type=files',
+          filebrowserImageUploadUrl: '../dist/js/kcfinder/upload.php?type=images',
+          filebrowserFlashUploadUrl: '../dist/js/kcfinder/upload.php?type=flash'
+      });
       $('#btnUploadImage').click(function(){        
         $('#file-image').click();
-      });
-      $('#btnUploadIcon').click(function(){        
-        $('#file-icon').click();
-      });
+      });      
       var files = "";
       $('#file-image').change(function(e){
          files = e.target.files;
@@ -199,7 +223,7 @@
              dataForm.append('file', value);
           });   
           
-          dataForm.append('date_dir', 0);
+          dataForm.append('date_dir', 1);
           dataForm.append('folder', 'tmp');
 
           $.ajax({

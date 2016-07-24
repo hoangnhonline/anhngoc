@@ -128,7 +128,17 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Chi tiet</label>
+                  <label>Tags</label>
+                  <select class="form-control select2" name="tags[]" id="tags" multiple="multiple">                  
+                    @if( $tagArr->count() > 0)
+                      @foreach( $tagArr as $value )
+                      <option value="{{ $value->id }}" {{ old('tags') && in_array($value->id, old('tags') ) ? "selected" : "" }}>{{ $value->tag }}</option>
+                      @endforeach
+                    @endif
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Chi tiết</label>
                   <textarea class="form-control" rows="4" name="content" id="content">{{ old('content') }}</textarea>
                 </div>
                   
@@ -190,6 +200,7 @@
 <script src="{{ URL::asset('backend/dist/js/ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+      $(".select2").select2();
       var editor = CKEDITOR.replace( 'content',{
           language : 'vi',
           filebrowserBrowseUrl: '../dist/js/kcfinder/browse.php?type=files',

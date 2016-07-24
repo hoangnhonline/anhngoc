@@ -52,11 +52,11 @@
               <label for="email">Site nguồn:</label>
               <select class="form-control select2" name="site_id">
                 <option value="">-- Tất cả --</option>
-                <option value="1">-- xvideos.com --</option>
-                <option value="2">-- youporn.com --</option>
-                <option value="3">-- redtube.com --</option>
-                <option value="4">-- tnaflix.com --</option>
-                <option value="5">-- javhihi.com --</option>
+                <option value="1" {{ 1 == $site_id ? "selected" : "" }}>-- xvideos.com --</option>
+                <option value="2" {{ 2 == $site_id ? "selected" : "" }}>-- youporn.com --</option>
+                <option value="3" {{ 3 == $site_id ? "selected" : "" }}>-- redtube.com --</option>
+                <option value="4" {{ 4 == $site_id ? "selected" : "" }}>-- tnaflix.com --</option>
+                <option value="5" {{ 5 == $site_id ? "selected" : "" }}>-- javhihi.com --</option>
                 
               </select>
             </div>
@@ -71,7 +71,7 @@
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Danh sách</h3>
+          <h3 class="box-title">Danh sách ( <span class="value">{{ $items->total() }} phim )</span></h3>
         </div>
         
         <!-- /.box-header -->
@@ -82,7 +82,8 @@
           <table class="table table-bordered" id="table-list-data">
             <tr>
               <th style="width: 1%">#</th>              
-              <th>Tiêu đề</th>          
+              <th>Thumbnail</th>
+              <th>Tiêu đề</th>
               <th width="1%;white-space:nowrap">Thao tác</th>
             </tr>
             <tbody>
@@ -91,7 +92,10 @@
               @foreach( $items as $item )
                 <?php $i ++; ?>
               <tr id="row-{{ $item->id }}">
-                <td><span class="order">{{ $i }}</span></td>               
+                <td><span class="order">{{ $i }}</span></td>       
+                <td>
+                  <img class="img-thumbnail lazy" data-original="{{ Helper::showImage($item->image_url)}}" width="145">
+                </td>        
                 <td>                  
                   <a href="{{ route( 'movies.edit', [ 'id' => $item->id ]) }}">{{ $item->title }}</a>
                   
@@ -131,6 +135,7 @@
 </div>
 @stop
 @section('javascript_page')
+<script src="{{ URL::asset('assets/js/lazy.js') }}"></script>
 <script type="text/javascript">
 function callDelete(name, url){  
   swal({
@@ -147,6 +152,7 @@ function callDelete(name, url){
   return flag;
 }
 $(document).ready(function(){
+  $('img.lazy').lazyload();
   $('#parent_id').change(function(){
     $.ajax({
         url: $('#route_get_cate_by_parent').val(),

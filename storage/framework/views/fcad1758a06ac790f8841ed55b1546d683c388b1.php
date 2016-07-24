@@ -51,11 +51,11 @@
               <label for="email">Site nguồn:</label>
               <select class="form-control select2" name="site_id">
                 <option value="">-- Tất cả --</option>
-                <option value="1">-- xvideos.com --</option>
-                <option value="2">-- youporn.com --</option>
-                <option value="3">-- redtube.com --</option>
-                <option value="4">-- tnaflix.com --</option>
-                <option value="5">-- javhihi.com --</option>
+                <option value="1" <?php echo e(1 == $site_id ? "selected" : ""); ?>>-- xvideos.com --</option>
+                <option value="2" <?php echo e(2 == $site_id ? "selected" : ""); ?>>-- youporn.com --</option>
+                <option value="3" <?php echo e(3 == $site_id ? "selected" : ""); ?>>-- redtube.com --</option>
+                <option value="4" <?php echo e(4 == $site_id ? "selected" : ""); ?>>-- tnaflix.com --</option>
+                <option value="5" <?php echo e(5 == $site_id ? "selected" : ""); ?>>-- javhihi.com --</option>
                 
               </select>
             </div>
@@ -70,16 +70,20 @@
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Danh sách</h3>
+          <h3 class="box-title">Danh sách ( <span class="value"><?php echo e($items->total()); ?> phim )</span></h3>
         </div>
         
         <!-- /.box-header -->
         <div class="box-body">
+          <div style="text-align:center">
+            <?php echo e($items->appends( ['parent_id' => $parent_id, 'cate_id' => $cate_id, 'title' => $title, 'site_id' => $site_id] )->links()); ?>
+
+          </div>  
           <table class="table table-bordered" id="table-list-data">
             <tr>
-              <th style="width: 1%">#</th>
-              <th style="width: 1%;white-space:nowrap">Thứ tự</th>
-              <th>Tên</th>          
+              <th style="width: 1%">#</th>              
+              <th>Thumbnail</th>
+              <th>Tiêu đề</th>
               <th width="1%;white-space:nowrap">Thao tác</th>
             </tr>
             <tbody>
@@ -88,12 +92,12 @@
               <?php foreach( $items as $item ): ?>
                 <?php $i ++; ?>
               <tr id="row-<?php echo e($item->id); ?>">
-                <td><span class="order"><?php echo e($i); ?></span></td>
-                <td style="vertical-align:middle;text-align:center">
-                  <img src="<?php echo e(URL::asset('backend/dist/img/move.png')); ?>" class="move img-thumbnail" alt="Cập nhật thứ tự"/>
-                </td>
+                <td><span class="order"><?php echo e($i); ?></span></td>       
+                <td>
+                  <img class="img-thumbnail lazy" data-original="<?php echo e(Helper::showImage($item->image_url)); ?>" width="145">
+                </td>        
                 <td>                  
-                  <a href="<?php echo e(route( 'movies.edit', [ 'id' => $item->id ])); ?>"><?php echo e($item->name); ?></a>
+                  <a href="<?php echo e(route( 'movies.edit', [ 'id' => $item->id ])); ?>"><?php echo e($item->title); ?></a>
                   
                   <?php if( $item->is_hot == 1 ): ?>
                   <img class="img-thumbnail" src="<?php echo e(URL::asset('backend/dist/img/star.png')); ?>" alt="Nổi bật" title="Nổi bật" />
@@ -104,7 +108,7 @@
                 <td style="white-space:nowrap">                  
                   <a href="<?php echo e(route( 'movies.edit', [ 'id' => $item->id ])); ?>" class="btn btn-warning">Chỉnh sửa</a>                 
                   
-                  <a onclick="return callDelete('<?php echo e($item->name); ?>','<?php echo e(route( 'movies.destroy', [ 'id' => $item->id ])); ?>');" class="btn btn-danger">Xóa</a>
+                  <a onclick="return callDelete('<?php echo e($item->title); ?>','<?php echo e(route( 'movies.destroy', [ 'id' => $item->id ])); ?>');" class="btn btn-danger">Xóa</a>
                   
                 </td>
               </tr> 
@@ -117,6 +121,10 @@
 
           </tbody>
           </table>
+          <div style="text-align:center">
+            <?php echo e($items->appends( ['parent_id' => $parent_id, 'cate_id' => $cate_id, 'title' => $title, 'site_id' => $site_id] )->links()); ?>
+
+          </div>  
         </div>        
       </div>
       <!-- /.box -->     
@@ -128,6 +136,7 @@
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('javascript_page'); ?>
+<script src="<?php echo e(URL::asset('assets/js/lazy.js')); ?>"></script>
 <script type="text/javascript">
 function callDelete(name, url){  
   swal({
@@ -144,6 +153,7 @@ function callDelete(name, url){
   return flag;
 }
 $(document).ready(function(){
+  $('img.lazy').lazyload();
   $('#parent_id').change(function(){
     $.ajax({
         url: $('#route_get_cate_by_parent').val(),
