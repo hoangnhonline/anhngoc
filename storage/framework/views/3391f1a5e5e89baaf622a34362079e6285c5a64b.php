@@ -172,8 +172,8 @@ body {
     <form method="POST" action="<?php echo e(route('backend.check-login')); ?>">
       <?php echo csrf_field(); ?>
 
-      <input type="email" placeholder="Email" name="email" value="<?php echo e(old('email')); ?>" />
-      <input type="password" placeholder="Mật khẩu" name="password" value="<?php echo e(old('password')); ?>" />
+      <input type="email" placeholder="Email" name="email" />
+      <input type="password" placeholder="Mật khẩu" name="password" />
       <button>Login</button>
     </form>
   </div>

@@ -2,7 +2,7 @@
 
 use Closure;
 use Illuminate\Http\RedirectResponse;
-
+use Illuminate\Support\Facades\Auth;
 class IsAdmin {
 
 	/**
@@ -18,7 +18,7 @@ class IsAdmin {
         {
             return $next($request);
         }
-		return redirect()->route('backend.login');
+		return redirect()->route('backend.login-form');
 	}
 
 }

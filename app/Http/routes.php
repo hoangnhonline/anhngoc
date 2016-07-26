@@ -25,7 +25,7 @@ Route::get('backend/login', ['as' => 'backend.login-form', 'uses' => 'Backend\Us
 Route::post('backend/login', ['as' => 'backend.check-login', 'uses' => 'Backend\UserController@checkLogin']);
 Route::get('backend/logout', ['as' => 'backend.logout', 'uses' => 'Backend\UserController@logout']);
 
-Route::group(['namespace' => 'Backend', 'prefix' => 'backend'], function()
+Route::group(['namespace' => 'Backend', 'prefix' => 'backend', 'middleware' => 'isAdmin'], function()
 {
     // Controllers Within The "App\Http\Controllers\Backend" Namespace
 
