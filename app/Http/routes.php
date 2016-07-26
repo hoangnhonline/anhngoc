@@ -87,9 +87,12 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'backend', 'middleware' => '
         Route::post('/update', ['as' => 'banner.update', 'uses' => 'CateController@update']);
         Route::get('{id}/destroy', ['as' => 'banner.destroy', 'uses' => 'CateController@destroy']);
     }); 
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('/', ['as' => 'settings.index', 'uses' => 'SettingsController@index']);
+        Route::post('/update', ['as' => 'settings.update', 'uses' => 'SettingsController@update']);     
+    }); 
  	Route::post('/tmp-upload', ['as' => 'image.tmp-upload', 'uses' => 'UploadController@tmpUpload']);
     Route::post('/update-order', ['as' => 'update-order', 'uses' => 'GeneralController@updateOrder']);
     Route::post('/get-slug', ['as' => 'get-slug', 'uses' => 'GeneralController@getSlug']);
     Route::post('/get-movies-external', ['as' => 'general.get-movies-external', 'uses' => 'GeneralController@getMoviesExternal']);
-
 });
