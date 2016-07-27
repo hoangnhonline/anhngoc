@@ -1,3 +1,11 @@
+<?php $__env->startSection('title'); ?> <?php echo e($settingArr['site_title']); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_description'); ?> <?php echo e($settingArr['site_description']); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_keywords'); ?> <?php echo e($settingArr['site_keywords']); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('banner'); ?> <?php echo e($settingArr['banner']); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('facebook_appid'); ?> <?php echo e($settingArr['facebook_appid']); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_name'); ?> <?php echo e($settingArr['site_name']); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('favicon'); ?><?php echo e(Helper::showImage($settingArr['favicon'])); ?><?php $__env->stopSection(); ?>
+
 <div class="pad"></div>
 <?php if( $parentArr->count() > 0): ?>
 <?php foreach( $parentArr as $parent ): ?>

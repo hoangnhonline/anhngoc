@@ -4,19 +4,18 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Danh mục cha      
+      Cài đặt site
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-      <li><a href="{{ route('parent-cate.index') }}">Danh mục cha</a></li>
-      <li class="active">Tạo mới</li>
+      <li><a href="{{ route('settings.index') }}">Cài đặt</a></li>
+      <li class="active">Cập nhật</li>
     </ol>
   </section>
 
   <!-- Main content -->
-  <section class="content">
-    <a class="btn btn-default" href="{{ route('parent-cate.index') }}" style="margin-bottom:5px">Quay lại</a>
-    <form role="form" method="POST" action="{{ route('parent-cate.store') }}">
+  <section class="content">   
+    <form role="form" method="POST" action="{{ route('settings.update') }}">
     <div class="row">
       <!-- left column -->
 
@@ -24,7 +23,7 @@
         <!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Tạo mới</h3>
+            <h3 class="box-title">Cập nhật</h3>
           </div>
           <!-- /.box-header -->               
             {!! csrf_field() !!}
@@ -39,39 +38,75 @@
                       </ul>
                   </div>
               @endif
-              
+              @if(Session::has('message'))
+              <p class="alert alert-info" >{{ Session::get('message') }}</p>
+              @endif
                  <!-- text input -->
                 <div class="form-group">
                   <label>Tên site <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" name="site_name" id="site_name" value="{{ old('name') }}">
+                  <input type="text" class="form-control" name="site_name" id="site_name" value="{{ $settingArr['site_name'] }}">
                 </div>
+                
                 <div class="form-group">
                   <label>Facebook</label>
-                  <input type="text" class="form-control" name="facebook_fanpage" id="facebook_fanpage" value="{{ old('slug') }}">
+                  <input type="text" class="form-control" name="facebook_fanpage" id="facebook_fanpage" value="{{ $settingArr['facebook_fanpage'] }}">
                 </div>
                 <div class="form-group">
                   <label>Facebook APP ID</label>
-                  <input type="text" class="form-control" name="facebook_appid" id="facebook_appid" value="{{ old('slug') }}">
+                  <input type="text" class="form-control" name="facebook_appid" id="facebook_appid" value="{{ $settingArr['facebook_appid'] }}">
                 </div>
                 <div class="form-group">
                   <label>Google +</label>
-                  <input type="text" class="form-control" name="google_fanpage" id="google_fanpage" value="{{ old('slug') }}">
+                  <input type="text" class="form-control" name="google_fanpage" id="google_fanpage" value="{{ $settingArr['google_fanpage'] }}">
                 </div>
                 <div class="form-group">
                   <label>Twitter</label>
-                  <input type="text" class="form-control" name="twitter_fanpage" id="twitter_fanpage" value="{{ old('slug') }}">
+                  <input type="text" class="form-control" name="twitter_fanpage" id="twitter_fanpage" value="{{ $settingArr['twitter_fanpage'] }}">
                 </div>
-                <!-- textarea -->
                 <div class="form-group">
-                  <label>Code google analystic</label>
-                  <textarea class="form-control" rows="5" name="google_analystic" id="google_analystic">{{ old('description') }}</textarea>
+                  <label>Code google analystic </label>
+                  <input type="text" class="form-control" name="google_analystic" id="google_analystic" value="{{ $settingArr['google_analystic'] }}">
+                </div>   
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
+                  <label class="col-md-3 row">Logo </label>    
+                  <div class="col-md-9">
+                    <img id="thumbnail_logo" src="{{ $settingArr['logo'] ? Helper::showImage($settingArr['logo']) : URL::asset('backend/dist/img/img.png') }}" class="img-logo" width="150" >
+                    
+                    <input type="file" id="file-logo" style="display:none" />
+                 
+                    <button class="btn btn-default" id="btnUploadLogo" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                  </div>
+                  <div style="clear:both"></div>
                 </div>
-
+                <div style="clear:both"></div> 
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
+                  <label class="col-md-3 row">Favicon </label>    
+                  <div class="col-md-9">
+                    <img id="thumbnail_favicon" src="{{ $settingArr['favicon'] ? Helper::showImage($settingArr['favicon']) : URL::asset('backend/dist/img/img.png') }}" class="img-favicon" width="50">
+                    
+                    <input type="file" id="file-favicon" style="display:none" />
+                 
+                    <button class="btn btn-default" id="btnUploadFavicon" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                  </div>
+                  <div style="clear:both"></div>
+                </div>
+                <div style="clear:both"></div> 
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
+                  <label class="col-md-3 row">Banner ( og:image ) </label>    
+                  <div class="col-md-9">
+                    <img id="thumbnail_banner" src="{{ $settingArr['banner'] ? Helper::showImage($settingArr['banner']) : URL::asset('backend/dist/img/img.png') }}" class="img-banner" width="200">
+                    
+                    <input type="file" id="file-banner" style="display:none" />
+                 
+                    <button class="btn btn-default" id="btnUploadBanner" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                  </div>
+                  <div style="clear:both"></div>
+                </div>
+                <div style="clear:both"></div>            
                  
             </div>                        
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary">Lưu</button>
-              <a class="btn btn-default" class="btn btn-primary" href="{{ route('parent-cate.index')}}">Hủy</a>
+              <button type="submit" class="btn btn-primary">Lưu</button>         
             </div>
             
         </div>
@@ -87,22 +122,22 @@
           <!-- /.box-header -->
             <div class="box-body">
               <div class="form-group">
-                <label>Meta title </label>
-                <input type="text" class="form-control" name="site_title" id="site_title" value="{{ old('meta_title') }}">
+                <label>Meta title <span class="red-star">*</span></label>
+                <input type="text" class="form-control" name="site_title" id="site_title" value="{{ $settingArr['site_title'] }}">
               </div>
               <!-- textarea -->
               <div class="form-group">
-                <label>Meta desciption</label>
-                <textarea class="form-control" rows="4" name="site_description" id="site_description">{{ old('meta_description') }}</textarea>
+                <label>Meta desciption <span class="red-star">*</span></label>
+                <textarea class="form-control" rows="4" name="site_description" id="site_description">{{ $settingArr['site_description'] }}</textarea>
               </div>  
 
               <div class="form-group">
-                <label>Meta keywords</label>
-                <textarea class="form-control" rows="4" name="site_keywords" id="site_keywords">{{ old('meta_keywords') }}</textarea>
+                <label>Meta keywords <span class="red-star">*</span></label>
+                <textarea class="form-control" rows="4" name="site_keywords" id="site_keywords">{{ $settingArr['site_keywords'] }}</textarea>
               </div>  
               <div class="form-group">
                 <label>Custom text</label>
-                <textarea class="form-control" rows="4" name="custom_text" id="custom_text">{{ old('custom_text') }}</textarea>
+                <textarea class="form-control" rows="4" name="custom_text" id="custom_text">{{ $settingArr['custom_text'] }}</textarea>
               </div>
             
         </div>
@@ -111,6 +146,13 @@
       </div>
       <!--/.col (left) -->      
     </div>
+<input type="hidden" name="logo" id="logo" value="{{ $settingArr['logo'] }}"/>          
+<input type="hidden" name="logo_name" id="logo_name" value="{{ old('logo_name') }}"/>
+<input type="hidden" name="favicon" id="favicon" value="{{ $settingArr['favicon'] }}"/>          
+<input type="hidden" name="favicon_name" id="favicon_name" value="{{ old('favicon_name') }}"/>
+<input type="hidden" name="banner" id="banner" value="{{ $settingArr['banner'] }}"/>          
+<input type="hidden" name="banner_name" id="banner_name" value="{{ old('banner_name') }}"/>
+
     </form>
     <!-- /.row -->
   </section>
@@ -121,14 +163,17 @@
 @section('javascript_page')
 <script type="text/javascript">
     $(document).ready(function(){
-      $('#btnUploadImage').click(function(){        
-        $('#file-image').click();
+      $('#btnUploadLogo').click(function(){        
+        $('#file-logo').click();
       });
-      $('#btnUploadIcon').click(function(){        
-        $('#file-icon').click();
+      $('#btnUploadFavicon').click(function(){        
+        $('#file-favicon').click();
+      });
+      $('#btnUploadBanner').click(function(){        
+        $('#file-banner').click();
       });
       var files = "";
-      $('#file-image').change(function(e){
+      $('#file-logo').change(function(e){
          files = e.target.files;
          
          if(files != ''){
@@ -149,9 +194,9 @@
             contentType: false,
             success: function (response) {
               if(response.image_path){
-                $('#thumbnail_image').attr('src',$('#upload_url').val() + response.image_path);
-                $( '#image_url' ).val( response.image_path );
-                $( '#image_name' ).val( response.image_name );
+                $('#thumbnail_logo').attr('src',$('#upload_url').val() + response.image_path);
+                $( '#logo' ).val( response.image_path );
+                $( '#logo_name' ).val( response.image_name );
               }
               console.log(response.image_path);
                 //window.location.reload();
@@ -167,13 +212,13 @@
           });
         }
       });
-      var filesIcon = '';
-      $('#file-icon').change(function(e){
-         filesIcon = e.target.files;
+      var filesFavicon = '';
+      $('#file-favicon').change(function(e){
+         filesFavicon = e.target.files;
          
-         if(filesIcon != ''){
+         if(filesFavicon != ''){
            var dataForm = new FormData();        
-          $.each(filesIcon, function(key, value) {
+          $.each(filesFavicon, function(key, value) {
              dataForm.append('file', value);
           });
           
@@ -189,9 +234,9 @@
             contentType: false,
             success: function (response) {
               if(response.image_path){
-                $('#thumbnail_icon').attr('src',$('#upload_url').val() + response.image_path);
-                $('#icon_url').val( response.image_path );
-                $( '#icon_name' ).val( response.image_name );
+                $('#thumbnail_favicon').attr('src',$('#upload_url').val() + response.image_path);
+                $('#favicon').val( response.image_path );
+                $( '#favicon_name' ).val( response.image_name );
               }
               console.log(response.image_path);
                 //window.location.reload();
@@ -208,7 +253,46 @@
         }
       });
       
-      
+      var filesBanner = '';
+      $('#file-banner').change(function(e){
+         filesBanner = e.target.files;
+         
+         if(filesBanner != ''){
+           var dataForm = new FormData();        
+          $.each(filesBanner, function(key, value) {
+             dataForm.append('file', value);
+          });
+          
+          dataForm.append('date_dir', 0);
+          dataForm.append('folder', 'tmp');
+
+          $.ajax({
+            url: $('#route_upload_tmp_image').val(),
+            type: "POST",
+            async: false,      
+            data: dataForm,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              if(response.image_path){
+                $('#thumbnail_banner').attr('src',$('#upload_url').val() + response.image_path);
+                $('#banner').val( response.image_path );
+                $( '#banner_name' ).val( response.image_name );
+              }
+              console.log(response.image_path);
+                //window.location.reload();
+            },
+            error: function(response){                             
+                var errors = response.responseJSON;
+                for (var key in errors) {
+                  
+                }
+                //$('#btnLoading').hide();
+                //$('#btnSave').show();
+            }
+          });
+        }
+      });
 
     });
     

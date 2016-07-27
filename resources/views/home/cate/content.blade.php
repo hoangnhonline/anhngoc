@@ -1,3 +1,16 @@
+@if( $is_search == 1)
+@section('title'){{ "Kết quả tìm kiếm theo từ khóa '".$tu_khoa."'"  }}@endsection
+@else
+@section('title'){{ $title }}@endsection
+@endif
+
+@section('site_description'){{ $cateDetail->meta_description or $settingArr['site_description'] }}@endsection
+@section('site_keywords'){{ $cateDetail->meta_keywords or $settingArr['site_keywords'] }}@endsection
+@section('banner'){{ $settingArr['banner'] }}@endsection
+@section('facebook_appid'){{ $settingArr['facebook_appid'] }}@endsection
+@section('site_name'){{ $settingArr['site_name'] }}@endsection
+@section('favicon'){{ Helper::showImage($settingArr['favicon']) }}@endsection
+@section('logo'){{ Helper::showImage($settingArr['logo']) }}@endsection
 <!--category-->
 <div class="movies-list-wrap mlw-related">
    <div class="ml-title ml-title-page">

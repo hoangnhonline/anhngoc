@@ -1,6 +1,13 @@
+<?php $__env->startSection('title'); ?><?php echo e($title); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_description'); ?><?php echo e(isset($cateDetail->meta_description) ? $cateDetail->meta_description : $settingArr['site_description']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_keywords'); ?><?php echo e(isset($cateDetail->meta_keywords) ? $cateDetail->meta_keywords : $settingArr['site_keywords']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('banner'); ?><?php echo e(Helper::showImage($settingArr['banner'])); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('favicon'); ?><?php echo e(Helper::showImage($settingArr['favicon'])); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('facebook_appid'); ?><?php echo e($settingArr['facebook_appid']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_name'); ?><?php echo e($settingArr['site_name']); ?><?php $__env->stopSection(); ?>
 <div id="bread">
    <ol class="breadcrumb">
-      <li><a href="<?php echo e(URL::to('/')); ?>">Home</a></li>
+      <li><a href="<?php echo e(URL::to('/')); ?>">Trang chủ</a></li>
       <li><a href="<?php echo e(route('news-list')); ?>">Bài viết</a></li>
       <li class="active"><?php echo e($detail->title); ?></li>
    </ol>

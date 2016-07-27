@@ -1,3 +1,9 @@
+<?php $__env->startSection('title'); ?><?php echo e($title); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_description'); ?><?php echo e(isset($detail->meta_description) ? $detail->meta_description : $settingArr['site_description']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_keywords'); ?><?php echo e(isset($detail->meta_keywords) ? $detail->meta_keywords : $settingArr['site_keywords']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('banner'); ?><?php echo e($settingArr['banner']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('facebook_appid'); ?><?php echo e($settingArr['facebook_appid']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_name'); ?><?php echo e($settingArr['site_name']); ?><?php $__env->stopSection(); ?>
 <div id="mv-info">
     <!--hoangcmt<div class="play-notice">
         <div class="alert alert-warning" style="margin-bottom: 0; border-radius: 0;">

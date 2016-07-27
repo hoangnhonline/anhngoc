@@ -1,3 +1,16 @@
+<?php if( $is_search == 1): ?>
+<?php $__env->startSection('title'); ?><?php echo e("Kết quả tìm kiếm theo từ khóa '".$tu_khoa."'"); ?><?php $__env->stopSection(); ?>
+<?php else: ?>
+<?php $__env->startSection('title'); ?><?php echo e($title); ?><?php $__env->stopSection(); ?>
+<?php endif; ?>
+
+<?php $__env->startSection('site_description'); ?><?php echo e(isset($cateDetail->meta_description) ? $cateDetail->meta_description : $settingArr['site_description']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_keywords'); ?><?php echo e(isset($cateDetail->meta_keywords) ? $cateDetail->meta_keywords : $settingArr['site_keywords']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('banner'); ?><?php echo e($settingArr['banner']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('facebook_appid'); ?><?php echo e($settingArr['facebook_appid']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('site_name'); ?><?php echo e($settingArr['site_name']); ?><?php $__env->stopSection(); ?>
+<?php $__env->startSection('favicon'); ?><?php echo e(Helper::showImage($settingArr['favicon'])); ?><?php $__env->stopSection(); ?>
+
 <!--category-->
 <div class="movies-list-wrap mlw-related">
    <div class="ml-title ml-title-page">

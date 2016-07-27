@@ -1,3 +1,11 @@
+@section('title') {{ $settingArr['site_title'] }} @endsection
+@section('site_description') {{ $settingArr['site_description'] }} @endsection
+@section('site_keywords') {{ $settingArr['site_keywords'] }} @endsection
+@section('banner') {{ $settingArr['banner'] }} @endsection
+@section('facebook_appid') {{ $settingArr['facebook_appid'] }} @endsection
+@section('site_name') {{ $settingArr['site_name'] }} @endsection
+@section('favicon'){{ Helper::showImage($settingArr['favicon']) }}@endsection
+@section('logo'){{ Helper::showImage($settingArr['logo']) }}@endsection
 <div class="pad"></div>
 @if( $parentArr->count() > 0)
 @foreach( $parentArr as $parent )

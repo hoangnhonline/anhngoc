@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
    <head>
-      <title>Watch Movies Online Free - 123movies.to</title>
+      <title>@yield('title')</title>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
       <meta name="robots" content="index,follow"/>
       <meta http-equiv="content-language" content="en"/>
-      <meta name="description" content="Watch HD Movies Online For Free and Download the latest movies without Registration at 123Movies.to"/>
-      <meta name="keywords" content="123movies, 123movies.to, watch hd movies, watch HD films, Hot new movies"/>
+      <meta name="description" content="@yield('site_description')"/>
+      <meta name="keywords" content="@yield('site_keywords')"/>
       <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
-      <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon"/>
+      <link rel="shortcut icon" href="@yield('favicon')" type="image/x-icon"/>
       <link rel="canonical" href=""/>
       <meta property="og:type" content="website"/>
       <meta property="og:image:width" content="650"/>
       <meta property="og:image:height" content="350"/>
       <meta property="og:image:type" content="image/jpeg"/>
-      <meta property="og:image" content="assets/images/fb-capture.png"/>
-      <meta property="article:publisher" content="https://www.facebook.com/123movies.to"/>
+      <meta property="og:image" content="@yield('banner')"/>
+      <meta property="article:publisher" content="@yield('google_fanpage')"/>
       <meta property="og:url" content=""/>
-      <meta property="og:title" content="Free Movies - Watch Your Favorite Movies Online | 123movies.to"/>
-      <meta property="og:description" content="Watch movies free online. Stream episodes of Family Guy, Grey's Anatomy, SNL, Modern Family and many more hit shows."/>
-      <meta property="og:site_name" content="123movies.to"/>
+      <meta property="og:title" content="@yield('title')"/>
+      <meta property="og:description" content="@yield('site_description')"/>
+      <meta property="og:site_name" content="@yield('site_name')"/>
       <meta property="og:updated_time" content="1468757347"/>
-      <meta property="fb:app_id" content="727243164041505"/>
+      <meta property="fb:app_id" content="@yield('facebook_appid')"/>
       <script>
          var base_url = 'http://' + document.domain + '/';
       </script>

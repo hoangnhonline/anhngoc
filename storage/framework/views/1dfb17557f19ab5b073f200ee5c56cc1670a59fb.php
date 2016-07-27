@@ -1,5 +1,5 @@
 <div class="header-logo">
-   <a title="Watch Your Favorite Movies Online" href="<?php echo e(URL::to('/')); ?>" id="logo"></a>
+   <a title="<?php echo e($settingArr['site_name']); ?>" href="<?php echo e(URL::to('/')); ?>" id="logo"></a>
 </div>
 <div class="mobile-menu"><i class="fa fa-reorder"></i></div>
 <div class="mobile-search"><i class="fa fa-search"></i></div>

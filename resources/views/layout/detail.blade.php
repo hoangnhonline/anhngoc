@@ -2,30 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-    <title>Watch Zombie Massacre For Free On 123Movies.to</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="robots" content="index,follow" />
-    <meta http-equiv="content-language" content="en" />
-
-    <meta name="description" content="Zombie Massacre A biological weapon developed by the United States turns the residents of a small town in Eastern Europe into zombies. The plan is to bring an atomic bomb into the city's nuclear plant to pretend a terrible accident occurred. A team of mercenaries is hired to complete the mission." />
-    <meta name="keywords" content="Zombie Massacre,Christian Boeving,Mike Mitchell,Tara Cardinal,Luca Boni,Marco Ristori" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-
-    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon" />
-    <link rel="canonical" href="film/zombie-massacre-14452/watching.html" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:image:width" content="650" />
-    <meta property="og:image:height" content="350" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image" content="http://img.123movies.to/2016/07/15/poster/95db19a88026aa29ed25260c54b6149a-zombie-massacre-1468610862.jpg" />
-    <meta property="article:publisher" content="https://www.facebook.com/123movies.to" />
-    <meta property="og:url" content="film/zombie-massacre-14452/watching.html" />
-    <meta property="og:title" content="Zombie Massacre" />
-    <meta property="og:description" content="Zombie Massacre A biological weapon developed by the United States turns the residents of a small town in Eastern Europe into zombies. The plan is to bring an atomic bomb into the city's nuclear plant to pretend a terrible accident occurred. A team of mercenaries is hired to complete the mission." />
-    <meta property="og:site_name" content="123movies.to" />
-    <meta property="og:updated_time" content="1468755566" />
-    <meta property="fb:app_id" content="727243164041505" />
+    <title>@yield('title')</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="robots" content="index,follow"/>
+  <meta http-equiv="content-language" content="en"/>
+  <meta name="description" content="@yield('site_description')"/>
+  <meta name="keywords" content="@yield('site_keywords')"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+  <link rel="shortcut icon" href="@yield('favicon')" type="image/x-icon"/>
+  <link rel="canonical" href=""/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image:width" content="650"/>
+  <meta property="og:image:height" content="350"/>
+  <meta property="og:image:type" content="image/jpeg"/>
+  <meta property="og:image" content="@yield('banner')"/>
+  <meta property="article:publisher" content="@yield('google_fanpage')"/>
+  <meta property="og:url" content=""/>
+  <meta property="og:title" content="@yield('title')"/>
+  <meta property="og:description" content="@yield('site_description')"/>
+  <meta property="og:site_name" content="@yield('site_name')"/>
+  <meta property="og:updated_time" content="1468757347"/>
+  <meta property="fb:app_id" content="@yield('facebook_appid')"/>
 
     <script>
         var base_url = 'http://' + document.domain + '/';
@@ -305,108 +302,7 @@
     </script>
 
 
-    <!--footer-->
-    <footer>
-        <div id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 footer-one">
-                        <div class="footer-link">
-                            <h3 class="footer-link-head">123movies</h3>
-
-                            <p><a title="Movies" href="movie/filter">Movies</a>
-                            </p>
-
-                            <p><a title="Top IMDb" href="movie/topimdb">Top IMDb</a>
-                            </p>
-
-                            <p><a title="DMCA" href="site/dmca">DMCA</a>
-                            </p>
-
-                            <p><a title="FAQ" href="site/faq">FAQ</a>
-                            </p>
-
-                            <p><a title="Advertising" href="site/promote">Advertising</a>
-                            </p>
-
-                            <p><a title="Advertising" href="site/donate">Donate</a>
-                            </p>
-                        </div>
-                        <div class="footer-link">
-                            <h3 class="footer-link-head">Movies</h3>
-
-                            <p><a title="Action" href="genre/action/">Action</a>
-                            </p>
-
-                            <p><a title="History" href="genre/history/">History</a>
-                            </p>
-
-                            <p><a title="Thriller" href="genre/thriller/">Thriller</a>
-                            </p>
-
-                            <p><a title="Sci-Fi" href="genre/sci-fi/">Sci-Fi</a>
-                            </p>
-                        </div>
-                        <div class="footer-link end">
-                            <h3 class="footer-link-head">TV-Series</h3>
-
-                            <p><a title="United States" href="movie/filter/series">United States</a>
-                            </p>
-
-                            <p><a title="Korea" href="movie/filter/series">Korea</a>
-                            </p>
-
-                            <p><a title="China" href="movie/filter/series">China</a>
-                            </p>
-
-                            <p><a title="Taiwan" href="movie/filter/series">Taiwan</a>
-                            </p>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="col-lg-4 footer-subs">
-                        <h3 class="footer-link-head">Subscribe</h3>
-
-                        <p class="desc">Subscribe to 123Movies mailing list to receive updates on movies, tv-series and news
-                        </p>
-
-                        <div class="form-subs mt20">
-                            <div class="subc-input pull-left" style="width:65%; margin-right: 5%;">
-                                <input type="email" placeholder="Enter your email" id="Email" name="email-footer" class="form-control">
-                            </div>
-                            <div class="subc-submit pull-left" style="width:30%;">
-                                <button id="subscribe-submit-footer" class="btn btn-block btn-success btn-approve" type="button" onclick="subscribe_footer()">Subscribe
-                                </button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div id="error-email-subs-footer" class="alert alert-danger error-block"></div>
-                        <div id="success-subs-footer" class="alert alert-success error-block"></div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="col-lg-4 footer-copyright">
-                        <p><img border="0" src="assets/images/logo.png" class="mv-ft-logo">
-                        </p>
-
-                        <p>Copyright &copy; 123movies.to. All Rights Reserved</p>
-
-                        <p style="font-size: 11px; line-height: 14px; color: rgba(255,255,255,0.4)">Disclaimer: This site does not store any files on its server. All contents are provided by non-affiliated third parties.
-                        </p>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="footer-tags">
-                    <a title="Watch full movies online">Watch full movies online</a>
-                    <a title="Free movies online">Free movies online</a>
-                    <a title="Movietube">Movietube</a>
-                    <a title="Free online movies full">Free online movies full</a>
-                    <a title="Movie2k">Movie2k</a>
-                    <a title="Watch movies 2k">Watch movies 2k</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--/footer-->
+    @include('home.index.footer')
     <div id="alert-cookie" role="alert" class="alert alert-warning alert-cookie" style="display: none;">
         <button type="button" class="close ml10" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
         </button>

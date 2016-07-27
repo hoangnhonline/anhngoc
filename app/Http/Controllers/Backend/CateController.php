@@ -19,7 +19,7 @@ class CateController extends Controller
     */
     public function index(Request $request)
     {
-
+        
         $parentCate = ParentCate::orderBy('display_order')->first();
         
         $parent_id = isset($request->parent_id) ? $request->parent_id : $parentCate->id;        

@@ -45,11 +45,16 @@
         <a href="<?php echo e(route('tag.index')); ?>">
           <i class="fa fa-th"></i> <span>Tag</span>         
         </a>        
+      </li>   
+      <li class="treeview">
+        <a href="<?php echo e(route('settings.index')); ?>">
+          <i class="fa fa-th"></i> <span>Cài đặt</span>         
+        </a>        
       </li>      
-      <li class="header">LABELS</li>
+      <!--<li class="header">LABELS</li>
       <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
       <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-      <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+      <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>-->
     </ul>
   </section>
   <!-- /.sidebar -->

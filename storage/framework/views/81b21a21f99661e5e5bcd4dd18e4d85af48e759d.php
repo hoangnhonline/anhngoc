@@ -3,17 +3,17 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Settings    
+      Cài đặt site
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-      <li><a href="<?php echo e(route('movies.index')); ?>">Settings</a></li>
-      <li class="active">Chỉnh sửa</li>
+      <li><a href="<?php echo e(route('settings.index')); ?>">Cài đặt</a></li>
+      <li class="active">Cập nhật</li>
     </ol>
   </section>
 
   <!-- Main content -->
-  <section class="content">    
+  <section class="content">   
     <form role="form" method="POST" action="<?php echo e(route('settings.update')); ?>">
     <div class="row">
       <!-- left column -->
@@ -22,12 +22,12 @@
         <!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Chỉnh sửa</h3>
+            <h3 class="box-title">Cập nhật</h3>
           </div>
           <!-- /.box-header -->               
             <?php echo csrf_field(); ?>
 
-            <input type="hidden" name="id" value="<?php echo e($detail->id); ?>">
+
             <div class="box-body">
               <?php if(count($errors) > 0): ?>
                   <div class="alert alert-danger">
@@ -38,94 +38,75 @@
                       </ul>
                   </div>
               <?php endif; ?>
-                                      
+              <?php if(Session::has('message')): ?>
+              <p class="alert alert-info" ><?php echo e(Session::get('message')); ?></p>
+              <?php endif; ?>
                  <!-- text input -->
                 <div class="form-group">
-                  <label>URL phim <span class="red-star">*</span></label>
-                  <div class="input-group">                 
-                    <input type="text" class="form-control" name="url" id="url" value="<?php echo e($detail->url); ?>">
-                    <span class="input-group-btn">
-                      <button class="btn btn-primary" type="button" id="btnLoadMovies"><span id="spanLoad" class="glyphicon glyphicon-download-alt"></span></button>
-                    </span>
-                  </div>
-                </div>
-                <div class="form-group loading" style="display:none">
-                  <img src="<?php echo e(URL::asset('backend/dist/img/loading.gif')); ?>" alt="loading" title="loading" />
-                </div>
-                <div class="form-group" >
-                  
-                  <label>Tiêu đề <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" name="title" id="title" value="<?php echo e($detail->title); ?>">
-                </div>
-                <span class=""></span>
-                <div class="form-group">                  
-                  <label>Slug <span class="red-star">*</span></label>                  
-                  <input type="text" class="form-control" name="slug" id="slug" value="<?php echo e($detail->slug); ?>">
+                  <label>Tên site <span class="red-star">*</span></label>
+                  <input type="text" class="form-control" name="site_name" id="site_name" value="<?php echo e($settingArr['site_name']); ?>">
                 </div>
                 
+                <div class="form-group">
+                  <label>Facebook</label>
+                  <input type="text" class="form-control" name="facebook_fanpage" id="facebook_fanpage" value="<?php echo e($settingArr['facebook_fanpage']); ?>">
+                </div>
+                <div class="form-group">
+                  <label>Facebook APP ID</label>
+                  <input type="text" class="form-control" name="facebook_appid" id="facebook_appid" value="<?php echo e($settingArr['facebook_appid']); ?>">
+                </div>
+                <div class="form-group">
+                  <label>Google +</label>
+                  <input type="text" class="form-control" name="google_fanpage" id="google_fanpage" value="<?php echo e($settingArr['google_fanpage']); ?>">
+                </div>
+                <div class="form-group">
+                  <label>Twitter</label>
+                  <input type="text" class="form-control" name="twitter_fanpage" id="twitter_fanpage" value="<?php echo e($settingArr['twitter_fanpage']); ?>">
+                </div>
+                <div class="form-group">
+                  <label>Code google analystic </label>
+                  <input type="text" class="form-control" name="google_analystic" id="google_analystic" value="<?php echo e($settingArr['google_analystic']); ?>">
+                </div>   
                 <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                  <label class="col-md-3 row">Thumbnail </label>    
+                  <label class="col-md-3 row">Logo </label>    
                   <div class="col-md-9">
-                    <img id="thumbnail_image" src="<?php echo e($detail->image_url ? Helper::showImage($detail->image_url) : URL::asset('backend/dist/img/img.png')); ?>" class="img-thumbnail" width="145" height="85">
+                    <img id="thumbnail_logo" src="<?php echo e($settingArr['logo'] ? Helper::showImage($settingArr['logo']) : URL::asset('backend/dist/img/img.png')); ?>" class="img-logo" width="150" >
                     
-                    <input type="file" id="file-image" style="display:none" />
+                    <input type="file" id="file-logo" style="display:none" />
                  
-                    <button class="btn btn-default" id="btnUploadImage" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                    <button class="btn btn-default" id="btnUploadLogo" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
                   </div>
                   <div style="clear:both"></div>
                 </div>
-                <div style="clear:both"></div>
-                <div class="form-group">
-                  <label>Chất lượng</label> 
-                  <label class="radio-inline"><input type="radio" value="1" name="quality" <?php echo e(1 == $detail->quality || !$detail->quality ? "checked" : ""); ?> >HD</label>
-                  <label class="radio-inline"><input type="radio" value="2" name="quality" <?php echo e(2 == $detail->quality ? "checked" : ""); ?>>SD</label>
-                  <label class="radio-inline"><input type="radio" value="3" name="quality" <?php echo e(3 == $detail->quality ? "checked" : ""); ?>>CAM</label>
+                <div style="clear:both"></div> 
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
+                  <label class="col-md-3 row">Favicon </label>    
+                  <div class="col-md-9">
+                    <img id="thumbnail_favicon" src="<?php echo e($settingArr['favicon'] ? Helper::showImage($settingArr['favicon']) : URL::asset('backend/dist/img/img.png')); ?>" class="img-favicon" width="50">
+                    
+                    <input type="file" id="file-favicon" style="display:none" />
+                 
+                    <button class="btn btn-default" id="btnUploadFavicon" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                  </div>
+                  <div style="clear:both"></div>
                 </div>
-                <div class="form-group">
-                  <label>Thời lượng</label>
-                  <input type="text" class="form-control" name="duration" id="duration" value="<?php echo e($detail->duration); ?>">
+                <div style="clear:both"></div> 
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
+                  <label class="col-md-3 row">Banner ( og:image ) </label>    
+                  <div class="col-md-9">
+                    <img id="thumbnail_banner" src="<?php echo e($settingArr['banner'] ? Helper::showImage($settingArr['banner']) : URL::asset('backend/dist/img/img.png')); ?>" class="img-banner" width="200">
+                    
+                    <input type="file" id="file-banner" style="display:none" />
+                 
+                    <button class="btn btn-default" id="btnUploadBanner" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                  </div>
+                  <div style="clear:both"></div>
                 </div>
-                <!-- textarea -->
-                <div class="form-group">
-                  <label>Mô tả</label>
-                  <textarea class="form-control" rows="4" name="description" id="description"><?php echo e($detail->description); ?></textarea>
-                </div> 
-                <div class="form-group">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="is_hot" value="1" <?php echo e($detail->is_hot == 1 ? "checked" : ""); ?>>
-                      Phim nổi bật
-                    </label>
-                  </div>               
-                </div>
-                <div class="form-group">
-                  <label>Ẩn/hiện</label>
-                  <select class="form-control" name="status" id="status">                  
-                    <option value="0" <?php echo e($detail->status == 0 ? "selected" : ""); ?>>Ẩn</option>
-                    <option value="1" <?php echo e($detail->status == 1 || $detail->status == NULL ? "selected" : ""); ?>>Hiện</option>                  
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Tags</label>
-                  <select class="form-control select2" name="tags[]" id="tags" multiple="multiple">                  
-                    <?php if( $tagArr->count() > 0): ?>
-                      <?php foreach( $tagArr as $value ): ?>
-                      <option value="<?php echo e($value->id); ?>" <?php echo e(in_array($value->id, $tagSelected) || (old('tags') && in_array($value->id, old('tags'))) ? "selected" : ""); ?>><?php echo e($value->tag); ?></option>
-                      <?php endforeach; ?>
-                    <?php endif; ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Chi tiết</label>
-                  <textarea class="form-control" rows="4" name="content" id="content"><?php echo e($detail->content); ?></textarea>
-                </div>
-                  
-            </div>          
-            <input type="hidden" name="image_url" id="image_url" value="<?php echo e($detail->image_url); ?>"/>          
-            <input type="hidden" name="image_name" id="image_name" value="<?php echo e($detail->image_name); ?>"/>
+                <div style="clear:both"></div>            
+                 
+            </div>                        
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary">Lưu</button>
-              <a class="btn btn-default" class="btn btn-primary" href="<?php echo e(route('movies.index')); ?>">Hủy</a>
+              <button type="submit" class="btn btn-primary">Lưu</button>         
             </div>
             
         </div>
@@ -141,22 +122,22 @@
           <!-- /.box-header -->
             <div class="box-body">
               <div class="form-group">
-                <label>Meta title </label>
-                <input type="text" class="form-control" name="meta_title" id="meta_title" value="<?php echo e($detail->meta_title); ?>">
+                <label>Meta title <span class="red-star">*</span></label>
+                <input type="text" class="form-control" name="site_title" id="site_title" value="<?php echo e($settingArr['site_title']); ?>">
               </div>
               <!-- textarea -->
               <div class="form-group">
-                <label>Meta desciption</label>
-                <textarea class="form-control" rows="4" name="meta_description" id="meta_description"><?php echo e($detail->meta_description); ?></textarea>
+                <label>Meta desciption <span class="red-star">*</span></label>
+                <textarea class="form-control" rows="4" name="site_description" id="site_description"><?php echo e($settingArr['site_description']); ?></textarea>
               </div>  
 
               <div class="form-group">
-                <label>Meta keywords</label>
-                <textarea class="form-control" rows="4" name="meta_keywords" id="meta_keywords"><?php echo e($detail->meta_keywords); ?></textarea>
+                <label>Meta keywords <span class="red-star">*</span></label>
+                <textarea class="form-control" rows="4" name="site_keywords" id="site_keywords"><?php echo e($settingArr['site_keywords']); ?></textarea>
               </div>  
               <div class="form-group">
                 <label>Custom text</label>
-                <textarea class="form-control" rows="4" name="custom_text" id="custom_text"><?php echo e($detail->custom_text); ?></textarea>
+                <textarea class="form-control" rows="4" name="custom_text" id="custom_text"><?php echo e($settingArr['custom_text']); ?></textarea>
               </div>
             
         </div>
@@ -165,34 +146,34 @@
       </div>
       <!--/.col (left) -->      
     </div>
+<input type="hidden" name="logo" id="logo" value="<?php echo e($settingArr['logo']); ?>"/>          
+<input type="hidden" name="logo_name" id="logo_name" value="<?php echo e(old('logo_name')); ?>"/>
+<input type="hidden" name="favicon" id="favicon" value="<?php echo e($settingArr['favicon']); ?>"/>          
+<input type="hidden" name="favicon_name" id="favicon_name" value="<?php echo e(old('favicon_name')); ?>"/>
+<input type="hidden" name="banner" id="banner" value="<?php echo e($settingArr['banner']); ?>"/>          
+<input type="hidden" name="banner_name" id="banner_name" value="<?php echo e(old('banner_name')); ?>"/>
+
     </form>
     <!-- /.row -->
   </section>
   <!-- /.content -->
 </div>
 <input type="hidden" id="route_upload_tmp_image" value="<?php echo e(route('image.tmp-upload')); ?>">
-<input type="hidden" id="route_get_movies_external" value="<?php echo e(route('general.get-movies-external')); ?>">
-
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('javascript_page'); ?>
-<script src="<?php echo e(URL::asset('backend/dist/js/ckeditor/ckeditor.js')); ?>"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-      $(".select2").select2();
-      var editor = CKEDITOR.replace( 'content',{
-          language : 'vi',
-          filebrowserBrowseUrl: '../dist/js/kcfinder/browse.php?type=files',
-          filebrowserImageBrowseUrl: '../dist/js/kcfinder/browse.php?type=images',
-          filebrowserFlashBrowseUrl: '../dist/js/kcfinder/browse.php?type=flash',
-          filebrowserUploadUrl: '../dist/js/kcfinder/upload.php?type=files',
-          filebrowserImageUploadUrl: '../dist/js/kcfinder/upload.php?type=images',
-          filebrowserFlashUploadUrl: '../dist/js/kcfinder/upload.php?type=flash'
+      $('#btnUploadLogo').click(function(){        
+        $('#file-logo').click();
       });
-      $('#btnUploadImage').click(function(){        
-        $('#file-image').click();
-      });      
+      $('#btnUploadFavicon').click(function(){        
+        $('#file-favicon').click();
+      });
+      $('#btnUploadBanner').click(function(){        
+        $('#file-banner').click();
+      });
       var files = "";
-      $('#file-image').change(function(e){
+      $('#file-logo').change(function(e){
          files = e.target.files;
          
          if(files != ''){
@@ -201,7 +182,7 @@
              dataForm.append('file', value);
           });   
           
-          dataForm.append('date_dir', 1);
+          dataForm.append('date_dir', 0);
           dataForm.append('folder', 'tmp');
 
           $.ajax({
@@ -213,9 +194,49 @@
             contentType: false,
             success: function (response) {
               if(response.image_path){
-                $('#thumbnail_image').attr('src',$('#upload_url').val() + response.image_path);
-                $( '#image_url' ).val( response.image_path );
-                $( '#image_name' ).val( response.image_name );
+                $('#thumbnail_logo').attr('src',$('#upload_url').val() + response.image_path);
+                $( '#logo' ).val( response.image_path );
+                $( '#logo_name' ).val( response.image_name );
+              }
+              console.log(response.image_path);
+                //window.location.reload();
+            },
+            error: function(response){                             
+                var errors = response.responseJSON;
+                for (var key in errors) {
+                  
+                }
+                //$('#btnLoading').hide();
+                //$('#btnSave').show();
+            }
+          });
+        }
+      });
+      var filesFavicon = '';
+      $('#file-favicon').change(function(e){
+         filesFavicon = e.target.files;
+         
+         if(filesFavicon != ''){
+           var dataForm = new FormData();        
+          $.each(filesFavicon, function(key, value) {
+             dataForm.append('file', value);
+          });
+          
+          dataForm.append('date_dir', 0);
+          dataForm.append('folder', 'tmp');
+
+          $.ajax({
+            url: $('#route_upload_tmp_image').val(),
+            type: "POST",
+            async: false,      
+            data: dataForm,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              if(response.image_path){
+                $('#thumbnail_favicon').attr('src',$('#upload_url').val() + response.image_path);
+                $('#favicon').val( response.image_path );
+                $( '#favicon_name' ).val( response.image_name );
               }
               console.log(response.image_path);
                 //window.location.reload();
@@ -232,8 +253,47 @@
         }
       });
       
-      
-   
+      var filesBanner = '';
+      $('#file-banner').change(function(e){
+         filesBanner = e.target.files;
+         
+         if(filesBanner != ''){
+           var dataForm = new FormData();        
+          $.each(filesBanner, function(key, value) {
+             dataForm.append('file', value);
+          });
+          
+          dataForm.append('date_dir', 0);
+          dataForm.append('folder', 'tmp');
+
+          $.ajax({
+            url: $('#route_upload_tmp_image').val(),
+            type: "POST",
+            async: false,      
+            data: dataForm,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              if(response.image_path){
+                $('#thumbnail_banner').attr('src',$('#upload_url').val() + response.image_path);
+                $('#banner').val( response.image_path );
+                $( '#banner_name' ).val( response.image_name );
+              }
+              console.log(response.image_path);
+                //window.location.reload();
+            },
+            error: function(response){                             
+                var errors = response.responseJSON;
+                for (var key in errors) {
+                  
+                }
+                //$('#btnLoading').hide();
+                //$('#btnSave').show();
+            }
+          });
+        }
+      });
+
     });
     
 </script>

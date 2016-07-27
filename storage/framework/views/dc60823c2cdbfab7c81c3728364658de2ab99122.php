@@ -2,30 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-    <title>Watch Zombie Massacre For Free On 123Movies.to</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="robots" content="index,follow" />
-    <meta http-equiv="content-language" content="en" />
-
-    <meta name="description" content="Zombie Massacre A biological weapon developed by the United States turns the residents of a small town in Eastern Europe into zombies. The plan is to bring an atomic bomb into the city's nuclear plant to pretend a terrible accident occurred. A team of mercenaries is hired to complete the mission." />
-    <meta name="keywords" content="Zombie Massacre,Christian Boeving,Mike Mitchell,Tara Cardinal,Luca Boni,Marco Ristori" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-
-    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon" />
-    <link rel="canonical" href="film/zombie-massacre-14452/watching.html" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:image:width" content="650" />
-    <meta property="og:image:height" content="350" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image" content="http://img.123movies.to/2016/07/15/poster/95db19a88026aa29ed25260c54b6149a-zombie-massacre-1468610862.jpg" />
-    <meta property="article:publisher" content="https://www.facebook.com/123movies.to" />
-    <meta property="og:url" content="film/zombie-massacre-14452/watching.html" />
-    <meta property="og:title" content="Zombie Massacre" />
-    <meta property="og:description" content="Zombie Massacre A biological weapon developed by the United States turns the residents of a small town in Eastern Europe into zombies. The plan is to bring an atomic bomb into the city's nuclear plant to pretend a terrible accident occurred. A team of mercenaries is hired to complete the mission." />
-    <meta property="og:site_name" content="123movies.to" />
-    <meta property="og:updated_time" content="1468755566" />
-    <meta property="fb:app_id" content="727243164041505" />
+    <title><?php echo $__env->yieldContent('title'); ?></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="robots" content="index,follow"/>
+  <meta http-equiv="content-language" content="en"/>
+  <meta name="description" content="<?php echo $__env->yieldContent('site_description'); ?>"/>
+  <meta name="keywords" content="<?php echo $__env->yieldContent('site_keywords'); ?>"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+  <link rel="shortcut icon" href="<?php echo $__env->yieldContent('favicon'); ?>" type="image/x-icon"/>
+  <link rel="canonical" href=""/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image:width" content="650"/>
+  <meta property="og:image:height" content="350"/>
+  <meta property="og:image:type" content="image/jpeg"/>
+  <meta property="og:image" content="<?php echo $__env->yieldContent('banner'); ?>"/>
+  <meta property="article:publisher" content="<?php echo $__env->yieldContent('google_fanpage'); ?>"/>
+  <meta property="og:url" content=""/>
+  <meta property="og:title" content="<?php echo $__env->yieldContent('title'); ?>"/>
+  <meta property="og:description" content="<?php echo $__env->yieldContent('site_description'); ?>"/>
+  <meta property="og:site_name" content="<?php echo $__env->yieldContent('site_name'); ?>"/>
+  <meta property="og:updated_time" content="1468757347"/>
+  <meta property="fb:app_id" content="<?php echo $__env->yieldContent('facebook_appid'); ?>"/>
 
     <script>
         var base_url = 'http://' + document.domain + '/';

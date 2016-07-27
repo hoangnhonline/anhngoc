@@ -1,3 +1,11 @@
+@section('title'){{ $title }}@endsection
+@section('site_description'){{ $detail->meta_description or $settingArr['site_description'] }}@endsection
+@section('site_keywords'){{ $detail->meta_keywords or $settingArr['site_keywords'] }}@endsection
+@section('banner'){{ $settingArr['banner'] }}@endsection
+@section('facebook_appid'){{ $settingArr['facebook_appid'] }}@endsection
+@section('site_name'){{ $settingArr['site_name'] }}@endsection
+@section('favicon'){{ Helper::showImage($settingArr['favicon']) }}@endsection
+@section('logo'){{ Helper::showImage($settingArr['logo']) }}@endsection
 <div id="mv-info">
     <!--hoangcmt<div class="play-notice">
         <div class="alert alert-warning" style="margin-bottom: 0; border-radius: 0;">

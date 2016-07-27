@@ -11,6 +11,7 @@ use App\Models\Backend\ParentCate;
 use App\Models\Backend\Tag;
 use App\Models\Backend\TagObjects;
 use App\Models\Backend\Movies;
+use App\Models\Backend\Settings;
 use Helper, File, Session, DB;
 
 
@@ -23,6 +24,7 @@ class DetailController extends Controller
     */
     public function index(Request $request)
     {   
+        $settingArr = Settings::whereRaw('1')->lists('value', 'name');
 
         $tagSelected = [];
 
@@ -65,8 +67,10 @@ class DetailController extends Controller
                     $tagSelected[] = $value;
                 }
             }
-        
+            $title = trim($detail->meta_title) ? $detail->meta_title : $detail->title;
             return view('home.detail', compact(
+                'settingArr',
+                'title',
                 'tagSelected', 
                 'relatedArr', 
                 'detail', 
