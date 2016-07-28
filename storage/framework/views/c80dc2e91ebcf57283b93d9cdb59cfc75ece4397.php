@@ -138,7 +138,12 @@
          <div class="container">
             <?php if( $page_name == ""): ?>
             <div class="top-content">
-              
+               <!-- slider -->
+                <?php echo $__env->yieldContent('slider'); ?>
+               <!--/slider -->
+               <!--top news-->
+               <?php echo $__env->yieldContent('top-news'); ?>
+               <!--/top news-->
                <div class="clearfix"></div>
             </div>
             <!--social home-->
@@ -184,18 +189,14 @@
             <!--            </div>-->
             <!--        </div>-->            
             <div class="main-content <?php echo e($layout_name); ?>">
-              <?php echo $__env->yieldContent('content'); ?>
+            	<?php echo $__env->yieldContent('content'); ?>               
             </div><!--end main-content-->            
          </div>
       </div>
       <!--/main -->
-      <!--footer-->
-      <footer>
-        <?php echo $__env->make('home.index.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-      </footer>
-      <!--/footer-->
+      <?php echo $__env->make('home.index.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
       <!-- Modal -->
-      <!--<div class="modal fade modal-cuz" id="pop-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      <div class="modal fade modal-cuz" id="pop-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -230,12 +231,11 @@
                      <button id="login-submit" type="submit" class="btn btn-block btn-success btn-approve mt10">
                      Login
                      </button>
-                     -->
                      <!--                        <button type="button" class="btn btn-block btn-facebook mt10"><i-->
                      <!--                                class="fa fa-facebook mr10"></i>Login-->
                      <!--                            via facebook-->
                      <!--                        </button>-->
-                    <!-- <div style="display: none;" id="login-loading" class="cssload-center">
+                     <div style="display: none;" id="login-loading" class="cssload-center">
                         <div class="cssload"><span></span></div>
                      </div>
                   </form>
@@ -246,8 +246,8 @@
                </div>
             </div>
          </div>
-      </div>-->
-      <!--<div class="modal fade modal-cuz" id="pop-register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      </div>
+      <div class="modal fade modal-cuz" id="pop-register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -291,12 +291,12 @@
                      <div id="error-confirm_password" class="alert alert-danger error-block"></div>
                      <button id="register-submit" type="submit" class="btn btn-block btn-success btn-approve mt20">
                      Register
-                     </button>-->
+                     </button>
                      <!--                        <button type="button" class="btn btn-block btn-facebook mt10"><i-->
                      <!--                                class="fa fa-facebook mr10"></i>Register-->
                      <!--                            via facebook-->
                      <!--                        </button>-->
-                     <!--<div style="display: none;" id="register-loading" class="cssload-center">
+                     <div style="display: none;" id="register-loading" class="cssload-center">
                         <div class="cssload"><span></span></div>
                      </div>
                   </form>
@@ -307,8 +307,8 @@
                </div>
             </div>
          </div>
-      </div>-->
-      <!--<div class="modal fade modal-cuz" id="pop-forgot" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      </div>
+      <div class="modal fade modal-cuz" id="pop-forgot" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -344,7 +344,7 @@
                </div>
             </div>
          </div>
-      </div>-->
+      </div>
       
       <div id="alert-cookie" role="alert" class="alert alert-warning alert-cookie" style="display: none;">
          <button type="button" class="close ml10" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -363,15 +363,15 @@
       <script type="text/javascript" src="assets/js/auth.min.js?v=0.4"></script>
       
       <script type="text/javascript" src="assets/js/psbar.jquery.min.js"></script>
-     <!-- <script type="text/javascript" src="assets/js/jquery.lazyload.js"></script>-->
+      <script type="text/javascript" src="assets/js/jquery.lazyload.js"></script>
       
       <?php echo $__env->yieldContent('javascript_page'); ?>
 
       <script type="text/javascript">
          $(document).ready(function () {
-         	/*$("img.lazy").lazyload({
+         	$("img.lazy").lazyload({
                 effect: "fadeIn"
-            });*/
+            });
              if (window.top !== window.self) {
                  document.head.innerHTML = '';
                  document.body.innerHTML = '';
